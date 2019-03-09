@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         mainViewModel.getTestPrint()
+        mainViewModel.testSavePreference()
+        mainViewModel.testGetPreference()
     }
 
     override fun onBackPressed() {

@@ -6,11 +6,12 @@ import com.ys.albertbaseproject.databinding.ActivityMainBinding
 import com.ys.albertbaseproject.di.socpe.ActivityScope
 import dagger.Module
 import dagger.Provides
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.ys.albertbaseproject.BaseViewModelFactory
+import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.main.MainViewModel
-
+import com.ys.albertbaseproject.storage.SharedPreferenceStorage
+import com.ys.albertbaseproject.storage.SharedPreferenceStorageImpl
 
 @Module
 abstract class MainActModule {
@@ -20,18 +21,15 @@ abstract class MainActModule {
         @Provides
         @ActivityScope
         fun provideMainActBinding(activity: MainActivity) : ActivityMainBinding {
-            return DataBindingUtil.setContentView(activity, com.ys.albertbaseproject.R.layout.activity_main)
+            return DataBindingUtil.setContentView(activity, R.layout.activity_main)
         }
 
         @JvmStatic
         @Provides
         @ActivityScope
         fun provideMainViewModel(activity: MainActivity): MainViewModel {
-            return ViewModelProviders.of(activity, object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return MainViewModel() as T
-                }
-            }).get(MainViewModel::class.java)
+//            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(storage) }).get(MainViewModel::class.java)
+            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(sharedPreferenceStorage = SharedPreferenceStorageImpl(activity.applicationContext)) }).get(MainViewModel::class.java)
         }
     }
 }
