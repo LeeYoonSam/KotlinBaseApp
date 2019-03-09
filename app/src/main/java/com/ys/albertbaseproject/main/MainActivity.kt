@@ -1,4 +1,4 @@
-package com.ys.albertbaseproject
+package com.ys.albertbaseproject.main
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -8,7 +8,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.databinding.ActivityMainBinding
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
@@ -18,8 +20,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @Inject
     lateinit var binding: ActivityMainBinding
 
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
 
         setSupportActionBar(toolbar)
 
@@ -29,12 +35,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         val toggle = ActionBarDrawerToggle(
-            this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, binding.drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        mainViewModel.getTestPrint()
     }
 
     override fun onBackPressed() {

@@ -1,6 +1,6 @@
 package com.ys.albertbaseproject.di.module
 
-import com.ys.albertbaseproject.MainActivity
+import com.ys.albertbaseproject.main.MainActivity
 import com.ys.albertbaseproject.di.socpe.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

@@ -53,4 +53,12 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVer"
     implementation "com.google.dagger:dagger-android-support:$daggerVer" // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+
+    /** Arch */
+    def archVer = "2.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archVer"
+    implementation "androidx.lifecycle:lifecycle-runtime:$archVer"
+    implementation "androidx.lifecycle:lifecycle-extensions:$archVer"
+    kapt "androidx.lifecycle:lifecycle-compiler:$archVer"
+
 }
