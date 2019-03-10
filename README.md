@@ -3,9 +3,10 @@
 ## Using Library
 * Dagger
 * Arch
+* Retrofit
+* RxJava/RxAndroid
 
 ## Todo
-* add Retrofit
 * add Room
 * add Glide
 * app permission grant util
