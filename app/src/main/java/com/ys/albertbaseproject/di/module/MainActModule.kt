@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.ys.albertbaseproject.BaseViewModelFactory
 import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.main.MainViewModel
+import com.ys.albertbaseproject.network.ApiService
 import com.ys.albertbaseproject.storage.SharedPreferenceStorage
 import com.ys.albertbaseproject.storage.SharedPreferenceStorageImpl
 
@@ -29,7 +30,9 @@ abstract class MainActModule {
         @ActivityScope
         fun provideMainViewModel(activity: MainActivity): MainViewModel {
 //            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(storage) }).get(MainViewModel::class.java)
-            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(sharedPreferenceStorage = SharedPreferenceStorageImpl(activity.applicationContext)) }).get(MainViewModel::class.java)
+            return ViewModelProviders
+                .of(activity, BaseViewModelFactory { MainViewModel(SharedPreferenceStorageImpl(activity.applicationContext)) } )
+                .get(MainViewModel::class.java)
         }
     }
 }
