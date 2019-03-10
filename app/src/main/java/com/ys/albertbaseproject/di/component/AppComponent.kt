@@ -1,8 +1,9 @@
 package com.ys.albertbaseproject.di.component
 
+import android.app.Application
 import com.ys.albertbaseproject.App
-import com.ys.albertbaseproject.di.module.ActivityModule
-import com.ys.albertbaseproject.di.module.StorageModule
+import com.ys.albertbaseproject.di.builder.ActivityModule
+import com.ys.albertbaseproject.di.StorageModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -15,7 +16,7 @@ interface AppComponent: AndroidInjector<App> {
     @Component.Builder
     abstract class Builder: AndroidInjector.Builder<App>() {
         @BindsInstance
-        abstract fun application(app: App): AppComponent.Builder
+        abstract fun application(application: Application): Builder
 
         abstract override fun build(): AppComponent
     }

@@ -27,8 +27,8 @@ abstract class MainActModule {
 
         @JvmStatic
         @Provides
-        @ActivityScope
         fun provideMainViewModel(activity: MainActivity): MainViewModel {
+//        fun provideMainViewModel(activity: MainActivity): MainViewModel {
 //            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(storage) }).get(MainViewModel::class.java)
             return ViewModelProviders
                 .of(activity, BaseViewModelFactory { MainViewModel(SharedPreferenceStorageImpl(activity.applicationContext)) } )

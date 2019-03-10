@@ -1,4 +1,4 @@
-package com.ys.albertbaseproject.di.module
+package com.ys.albertbaseproject.di
 
 import android.content.Context
 import com.ys.albertbaseproject.storage.SharedPreferenceStorageImpl
