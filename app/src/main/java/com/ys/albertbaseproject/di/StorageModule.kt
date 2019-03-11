@@ -9,23 +9,17 @@ import dagger.Provides
 import javax.inject.Singleton
 
 
-
 @Module
 class StorageModule {
-    @Module
-    companion object {
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideSharedPreferenceStorage(context: Context): SharedPreferenceStorage {
-            return SharedPreferenceStorageImpl(context)
-        }
+    @Provides
+    @Singleton
+    fun provideSharedPreferenceStorage(context: Context): SharedPreferenceStorage {
+        return SharedPreferenceStorageImpl(context)
+    }
 
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideStorage(sharedPreferenceStorage: SharedPreferenceStorage): Storage {
-            return sharedPreferenceStorage
-        }
+    @Provides
+    @Singleton
+    fun provideStorage(sharedPreferenceStorage: SharedPreferenceStorage): Storage {
+        return sharedPreferenceStorage
     }
 }

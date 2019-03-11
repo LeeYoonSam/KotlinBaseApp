@@ -11,28 +11,24 @@ import com.ys.albertbaseproject.BaseViewModelFactory
 import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.main.MainViewModel
 import com.ys.albertbaseproject.network.ApiService
-import com.ys.albertbaseproject.storage.SharedPreferenceStorage
 import com.ys.albertbaseproject.storage.SharedPreferenceStorageImpl
 
 @Module
-abstract class MainActModule {
-    @Module
-    companion object {
-        @JvmStatic
-        @Provides
-        @ActivityScope
-        fun provideMainActBinding(activity: MainActivity) : ActivityMainBinding {
-            return DataBindingUtil.setContentView(activity, R.layout.activity_main)
-        }
+class MainActModule {
+    @Provides
+    @ActivityScope
+    fun provideMainActBinding(mainActivity: MainActivity) : ActivityMainBinding {
+        return DataBindingUtil.setContentView(mainActivity, R.layout.activity_main)
+    }
 
-        @JvmStatic
-        @Provides
-        fun provideMainViewModel(activity: MainActivity): MainViewModel {
+    @Provides
+    @ActivityScope
+    fun provideMainViewModel(mainActivity: MainActivity, apiService: ApiService): MainViewModel {
 //        fun provideMainViewModel(activity: MainActivity): MainViewModel {
 //            return ViewModelProviders.of(activity, BaseViewModelFactory { MainViewModel(storage) }).get(MainViewModel::class.java)
-            return ViewModelProviders
-                .of(activity, BaseViewModelFactory { MainViewModel(SharedPreferenceStorageImpl(activity.applicationContext)) } )
-                .get(MainViewModel::class.java)
-        }
+        return ViewModelProviders
+            .of(mainActivity, BaseViewModelFactory { MainViewModel(SharedPreferenceStorageImpl(mainActivity.applicationContext), apiService) } )
+            .get(MainViewModel::class.java)
     }
+
 }

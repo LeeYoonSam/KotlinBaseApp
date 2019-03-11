@@ -10,5 +10,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [MainActModule::class])
-    abstract fun getMainActivity(): MainActivity
+    abstract fun mainActivity(): MainActivity
 }
