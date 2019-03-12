@@ -8,12 +8,23 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
 import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.databinding.ActivityMainBinding
 import dagger.android.AndroidInjection
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,6 +58,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mainViewModel.getTestPrint()
         mainViewModel.testSavePreference()
         mainViewModel.testGetPreference()
+
+        Glide.with(this)
+            .load(R.drawable.profile_thumbnail)
+            .into(ivProfile)
+
+        Completable.timer(3, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Glide.with(this)
+                .load("https://cdn.pixabay.com/photo/2015/06/24/13/32/dog-820014_960_720.jpg")
+                .into(ivProfile)
+            }
     }
 
     override fun onBackPressed() {
