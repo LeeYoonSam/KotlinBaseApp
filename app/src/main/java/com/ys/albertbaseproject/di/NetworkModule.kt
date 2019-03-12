@@ -17,12 +17,12 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-//    @Provides
-//    @Singleton
-//    fun provideOkHttpCache(context: Context): Cache {
-//        val cacheSize = 10 * 1024 * 1024 // 10MB
-//        return Cache(context.cacheDir, cacheSize.toLong())
-//    }
+    @Provides
+    @Singleton
+    fun provideOkHttpCache(context: Context): Cache {
+        val cacheSize = 10 * 1024 * 1024 // 10MB
+        return Cache(context.cacheDir, cacheSize.toLong())
+    }
 
     @Provides
     @Singleton
@@ -35,11 +35,11 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
 
         clientBuilder
-//            .cache(cache)
+            .cache(cache)
             .addInterceptor(httpLoggingInterceptor)
 
         return clientBuilder.build()
