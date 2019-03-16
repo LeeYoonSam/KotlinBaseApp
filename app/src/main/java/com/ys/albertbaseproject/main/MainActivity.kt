@@ -22,6 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import timber.log.Timber
+import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.concurrent.timer
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+
+        Timber.d("call onCreate")
 
         setSupportActionBar(toolbar)
 
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        Timber.d("call onBackPressed")
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
@@ -100,22 +105,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_camera -> {
-                // Handle the camera action
+                Timber.i("select camera menu")
             }
             R.id.nav_gallery -> {
-
+                Timber.i("select gallery menu")
             }
             R.id.nav_slideshow -> {
-
+                Timber.i("select slideshow menu")
             }
             R.id.nav_manage -> {
-
+                Timber.i("select manage menu")
             }
             R.id.nav_share -> {
-
+                Timber.i("select share menu")
             }
             R.id.nav_send -> {
-
+                Timber.i("select send menu")
             }
         }
 

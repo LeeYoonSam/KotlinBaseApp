@@ -1,14 +1,15 @@
 # KotlinBaseApp
 
 ## Using Library
-* Dagger
-* Arch
-* Retrofit
-* RxJava/RxAndroid
-* Glide
+* Dagger - dependency injection
+* Arch - architecture component
+* Retrofit - api networking
+* RxJava/RxAndroid - async
+* Glide - image loader
+* Timber - logger
 
 ## Todo
-* add Room
+* add Room - sqlite
 * app permission grant util
 * separate flavor / build type
 * auto generate of apk
