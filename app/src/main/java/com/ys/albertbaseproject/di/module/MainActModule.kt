@@ -9,8 +9,8 @@ import dagger.Provides
 import androidx.lifecycle.ViewModelProviders
 import com.ys.albertbaseproject.BaseViewModelFactory
 import com.ys.albertbaseproject.R
+import com.ys.albertbaseproject.data.source.DefaultPostRepository
 import com.ys.albertbaseproject.main.MainViewModel
-import com.ys.albertbaseproject.network.ApiService
 import com.ys.albertbaseproject.storage.SharedPreferenceStorage
 
 @Module
@@ -23,9 +23,9 @@ class MainActModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(mainActivity: MainActivity, storage: SharedPreferenceStorage, apiService: ApiService): MainViewModel {
+    fun provideMainViewModel(mainActivity: MainActivity, storage: SharedPreferenceStorage, repository: DefaultPostRepository): MainViewModel {
         return ViewModelProviders
-            .of(mainActivity, BaseViewModelFactory { MainViewModel(storage, apiService) } )
+            .of(mainActivity, BaseViewModelFactory { MainViewModel(storage, repository) } )
             .get(MainViewModel::class.java)
     }
 }

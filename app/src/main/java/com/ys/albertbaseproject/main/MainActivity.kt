@@ -8,25 +8,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.ys.albertbaseproject.R
 import com.ys.albertbaseproject.databinding.ActivityMainBinding
 import dagger.android.AndroidInjection
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.coroutines.*
 import timber.log.Timber
-import java.lang.IllegalArgumentException
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,26 +47,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
+
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        mainViewModel.getTestPrint()
-        mainViewModel.testSavePreference()
-        mainViewModel.testGetPreference()
+        mainViewModel.loading.observe(this, Observer { isLoading ->
+            if(isLoading) {
+                pbLoading.visibility = View.VISIBLE
+                return@Observer
+            }
+
+            pbLoading.visibility = View.GONE
+        })
 
         Glide.with(this)
             .load(R.drawable.profile_thumbnail)
             .into(ivProfile)
 
-        Completable.timer(3, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Glide.with(this)
+        CoroutineScope(Dispatchers.Main).launch {
+            Glide.with(applicationContext)
                 .load("https://cdn.pixabay.com/photo/2015/06/24/13/32/dog-820014_960_720.jpg")
                 .into(ivProfile)
-            }
+        }
+
+        mainViewModel.getTestPrint()
+        mainViewModel.testSavePreference()
+        mainViewModel.testGetPreference()
+
+        getRepositoryData()
+    }
+
+    private fun getRepositoryData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            mainViewModel.getPosts()
+            mainViewModel.getComments()
+        }
     }
 
     override fun onBackPressed() {
