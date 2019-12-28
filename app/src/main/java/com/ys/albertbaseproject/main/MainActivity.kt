@@ -10,50 +10,51 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.ys.albertbaseproject.R
-import com.ys.albertbaseproject.databinding.ActivityMainBinding
-import dagger.android.AndroidInjection
+import com.ys.albertbaseproject.utils.viewModelProvider
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.app_bar_main.view.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
-    lateinit var binding: ActivityMainBinding
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
 
-        Timber.d("call onCreate")
+        viewModel = viewModelProvider(viewModelFactory)
 
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
+        appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
         val toggle = ActionBarDrawerToggle(
-            this, binding.drawerLayout, toolbar,
+            this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
 
-        binding.drawerLayout.addDrawerListener(toggle)
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        mainViewModel.loading.observe(this, Observer { isLoading ->
+        viewModel.loading.observe(this, Observer { isLoading ->
             if(isLoading) {
                 pbLoading.visibility = View.VISIBLE
                 return@Observer
@@ -72,24 +73,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .into(ivProfile)
         }
 
-        mainViewModel.getTestPrint()
-        mainViewModel.testSavePreference()
-        mainViewModel.testGetPreference()
+        viewModel.getTestPrint()
+        viewModel.testSavePreference()
+        viewModel.testGetPreference()
+
+        viewModel.getAllData()
+        viewModel.searchData()
 
         getRepositoryData()
     }
 
     private fun getRepositoryData() {
         CoroutineScope(Dispatchers.IO).launch {
-            mainViewModel.getPosts()
-            mainViewModel.getComments()
+            viewModel.getPosts()
+            viewModel.getComments()
         }
     }
 
     override fun onBackPressed() {
         Timber.d("call onBackPressed")
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -134,7 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 }

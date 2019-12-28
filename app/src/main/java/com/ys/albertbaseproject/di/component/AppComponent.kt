@@ -1,11 +1,7 @@
 package com.ys.albertbaseproject.di.component
 
-import android.app.Application
 import com.ys.albertbaseproject.App
-import com.ys.albertbaseproject.di.AppModule
-import com.ys.albertbaseproject.di.NetworkModule
-import com.ys.albertbaseproject.di.builder.ActivityModule
-import com.ys.albertbaseproject.di.StorageModule
+import com.ys.albertbaseproject.di.*
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -13,13 +9,20 @@ import javax.inject.Singleton
 import dagger.BindsInstance
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class, NetworkModule::class, StorageModule::class])
-interface AppComponent: AndroidInjector<App> {
-    @Component.Builder
-    abstract class Builder: AndroidInjector.Builder<App>() {
-        @BindsInstance
-        abstract fun application(application: Application): Builder
-
-        abstract override fun build(): AppComponent
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        ActivityBindingModule::class,
+        NetworkModule::class,
+        StorageModule::class,
+        ViewModelModule::class
+    ]
+)
+interface AppComponent : AndroidInjector<App> {
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: App): AppComponent
     }
 }
+
