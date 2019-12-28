@@ -3,14 +3,14 @@
 ## Using Library
 * Dagger - dependency injection
 * Arch - architecture component
- - Lifecycle
- - Room
+    - Lifecycle
+    - Room
 * Retrofit - api networking
 * Glide - image loader
 * Timber - logger
 * Coroutines
-* ThreeTenABP
- - https://github.com/JakeWharton/ThreeTenABP
+* ThreeTenABP - Date, Time 관
+    - https://github.com/JakeWharton/ThreeTenABP
 
 ## Todo
 * app permission grant util
