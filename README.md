@@ -3,13 +3,16 @@
 ## Using Library
 * Dagger - dependency injection
 * Arch - architecture component
+ - Lifecycle
+ - Room
 * Retrofit - api networking
 * Glide - image loader
 * Timber - logger
 * Coroutines
+* ThreeTenABP
+ - https://github.com/JakeWharton/ThreeTenABP
 
 ## Todo
-* add Room - sqlite
 * app permission grant util
 * separate flavor / build type
 * auto generate of apk
